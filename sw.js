@@ -2,22 +2,21 @@ self.importScripts("data/texts.js");
 
 // Files to cache
 const cacheName = "eePWA-v2";
-const appShellFiles = [
-  "/PWA-elencuentro/",
-  "/PWA-elencuentro/index.html",
-  "/PWA-elencuentro/app.js",
-  "/PWA-elencuentro/style.css",
-  "/PWA-elencuentro/favicon.ico",
-  "/PWA-elencuentro/img/logo.png",
-  "/PWA-elencuentro/icons/android-chrome-192x192.png",
-  "/PWA-elencuentro/icons/android-chrome-384x384.png",
-  "/PWA-elencuentro/icons/icons/apple-touch-icon.png",
-  "/PWA-elencuentro/icons/icons/favicon-16x16.png",
-  "/PWA-elencuentro/icons/favicon-32x32.png",
-  "/PWA-elencuentro/icons/mstile-150x150.png",
-  "/PWA-elencuentro/icons/safari-pinned-tab.svg",
+const contentToCache = [
+  "./PWA-elencuentro/",
+  "./PWA-elencuentro/index.html",
+  "./PWA-elencuentro/app.js",
+  "./PWA-elencuentro/style.css",
+  "./PWA-elencuentro/favicon.ico",
+  "./PWA-elencuentro/img/logo.png",
+  "./PWA-elencuentro/icons/android-chrome-192x192.png",
+  "./PWA-elencuentro/icons/android-chrome-384x384.png",
+  "./PWA-elencuentro/icons/icons/apple-touch-icon.png",
+  "./PWA-elencuentro/icons/icons/favicon-16x16.png",
+  "./PWA-elencuentro/icons/favicon-32x32.png",
+  "./PWA-elencuentro/icons/mstile-150x150.png",
+  "./PWA-elencuentro/icons/safari-pinned-tab.svg",
 ];
-const contentToCache = appShellFiles;
 
 // Installing Service Worker
 self.addEventListener("install", (e) => {
