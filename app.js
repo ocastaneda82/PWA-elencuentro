@@ -26,3 +26,8 @@ for (let i = 0; i < questions.length; i++) {
   questionsContent += entry;
 }
 document.getElementById("questions").innerHTML = questionsContent;
+
+// Registering Service Worker
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/pwa-examples/js13kpwa/sw.js");
+}
