@@ -22,11 +22,7 @@ const appShellFiles = [
   "/PWA-elencuentro/icons/icon-256.png",
   "/PWA-elencuentro/icons/icon-512.png",
 ];
-const gamesImages = [];
-for (let i = 0; i < games.length; i++) {
-  gamesImages.push(`data/img/${games[i].slug}.jpg`);
-}
-const contentToCache = appShellFiles.concat(gamesImages);
+const contentToCache = appShellFiles;
 
 // Installing Service Worker
 self.addEventListener("install", (e) => {
