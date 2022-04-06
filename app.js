@@ -13,3 +13,16 @@ for (let i = 0; i < texts.length; i++) {
   content += entry;
 }
 document.getElementById("content").innerHTML = content;
+//Month
+const contentMonth = month;
+document.getElementById("month").innerHTML = contentMonth;
+//Questions
+const qTemplates = `<li>
+QUESTION
+</li>`;
+let questionsContent = "";
+for (let i = 0; i < questions.length; i++) {
+  let entry = qTemplates.replace(/QUESTION/g, questions[i]);
+  questionsContent += entry;
+}
+document.getElementById("questions").innerHTML = questionsContent;
