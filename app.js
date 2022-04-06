@@ -29,5 +29,5 @@ document.getElementById("questions").innerHTML = questionsContent;
 
 // Registering Service Worker
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/pwa-examples/js13kpwa/sw.js");
+  navigator.serviceWorker.register("/PWA-elencuentro/sw.js");
 }
