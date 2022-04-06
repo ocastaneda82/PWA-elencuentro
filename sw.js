@@ -3,19 +3,19 @@ self.importScripts("data/texts.js");
 // Files to cache
 const cacheName = "eePWA-v2";
 const contentToCache = [
-  "/",
-  "/index.html",
-  "/app.js",
-  "/style.css",
-  "/favicon.ico",
-  "/img/logo.png",
-  "/icons/android-chrome-192x192.png",
-  "/icons/android-chrome-384x384.png",
-  "/icons/icons/apple-touch-icon.png",
-  "/icons/icons/favicon-16x16.png",
-  "/icons/favicon-32x32.png",
-  "/icons/mstile-150x150.png",
-  "/icons/safari-pinned-tab.svg",
+  "./",
+  "./index.html",
+  "./app.js",
+  "./style.css",
+  "./favicon.ico",
+  "./img/logo.png",
+  "./icons/android-chrome-192x192.png",
+  "./icons/android-chrome-384x384.png",
+  "./icons/icons/apple-touch-icon.png",
+  "./icons/icons/favicon-16x16.png",
+  "./icons/favicon-32x32.png",
+  "./icons/mstile-150x150.png",
+  "./icons/safari-pinned-tab.svg",
 ];
 
 // Installing Service Worker
