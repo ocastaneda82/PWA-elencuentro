@@ -3,19 +3,19 @@ self.importScripts("data/texts.js");
 // Files to cache
 const cacheName = "eePWA-v2";
 const contentToCache = [
-  "./PWA-elencuentro/",
-  "./PWA-elencuentro/index.html",
-  "./PWA-elencuentro/app.js",
-  "./PWA-elencuentro/style.css",
-  "./PWA-elencuentro/favicon.ico",
-  "./PWA-elencuentro/img/logo.png",
-  "./PWA-elencuentro/icons/android-chrome-192x192.png",
-  "./PWA-elencuentro/icons/android-chrome-384x384.png",
-  "./PWA-elencuentro/icons/icons/apple-touch-icon.png",
-  "./PWA-elencuentro/icons/icons/favicon-16x16.png",
-  "./PWA-elencuentro/icons/favicon-32x32.png",
-  "./PWA-elencuentro/icons/mstile-150x150.png",
-  "./PWA-elencuentro/icons/safari-pinned-tab.svg",
+  "/",
+  "/index.html",
+  "/app.js",
+  "/style.css",
+  "/favicon.ico",
+  "/img/logo.png",
+  "/icons/android-chrome-192x192.png",
+  "/icons/android-chrome-384x384.png",
+  "/icons/icons/apple-touch-icon.png",
+  "/icons/icons/favicon-16x16.png",
+  "/icons/favicon-32x32.png",
+  "/icons/mstile-150x150.png",
+  "/icons/safari-pinned-tab.svg",
 ];
 
 // Installing Service Worker
