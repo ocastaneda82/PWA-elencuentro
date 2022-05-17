@@ -1,0 +1,72 @@
+/* Variables */
+
+/* colors */
+@color__red: #B01917;
+@color__green: #1DD624;
+@color__yellow: #D6B41D;
+@color__orange: #C46400;
+@color__blue: #4E7D8F;
+@color__gray: #9EA7B0;
+@color__black: #222D3A;
+
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap');
+
+
+/* others */
+.paddings {
+    padding: 1rem;
+}
+.gaps {
+    gap: 1rem;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+}
+strong {
+    font-weight: 600;
+}
+
+/* Header */
+header {
+    background-color: @color__black;
+    * {
+        color: white
+    }
+}
+.header {
+    &__container {
+        background: url(./img/header-temp-bg.jpg) no-repeat center/cover;
+    }
+    &__subtitle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .paddings;
+        background-color: @color__red;
+    }
+    &__title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: fade(@color__black, 50%);
+        .paddings;
+        .gaps;
+        
+    }
+    &__text {
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 41px;
+        text-transform: uppercase;
+    }
+
+    &__logo {
+        max-width: 80px;
+        width: 100%;
+        display: block;
+        height: auto;
+    }
+}

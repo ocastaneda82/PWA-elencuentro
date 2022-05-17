@@ -1,54 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>El Encuentro - Vida de iglesia</title>
-    <meta name="description" content="Manténte al día con nuestra vida de iglesia">
-    <meta name="author" content="ocastaneda82">
-    <meta name="theme-color" content="#B12A34">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:image" content="icons/icon-512.png">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="eepwa.webmanifest">
+    <meta
+      name="description"
+      content="Manténte al día con nuestra vida de iglesia"
+    />
+    <meta name="author" content="ocastaneda82" />
+    <meta name="theme-color" content="#B12A34" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:image" content="icons/icon-512.png" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="manifest" href="eepwa.webmanifest" />
     <script src="data/texts.js" defer></script>
     <script src="app.js" defer></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <header>
-        <div class="header__container">
-            <h3 class="header__subtitle"><strong>El Encuentro</strong> una iglesia de la Alianza</h3>
-            
-            <img class="header__logo" id="logo" src="./img/logo.png" alt="">
-            <h1 class="header__title">Vida de iglesia</h1>
+      <div class="header__container">
+        <h3 class="header__subtitle">
+          <span><strong>El Encuentro</strong> una iglesia de la Alianza</span>
+        </h3>
+        <div class="header__title">
+          <img class="header__logo" id="logo" src="./img/logo.png" alt="" />
+          <h1 class="header__text">Vida de iglesia</h1>
         </div>
+      </div>
     </header>
     <main>
-        <section class="learning">
-            <div class="learnig__container">
-
-            </div>
-        </section>
-        <section class="podcast"></section>
-        <section class="predicas"></section>
-        <section class="proximos"></section>
+      <section class="learning">
+        <div class="learnig__container">
+          <h2 class="learning__title">
+            Estudiando la Bíblia
+            <span class="learning__month" id="month"></span>
+          </h2>
+          <dl class="learning__dates" id="content"></dl>
+          <h3 class="learning__subtitle">Preguntas de control</h3>
+          <ul class="learning__list" id="questions"></ul>
+        </div>
+      </section>
+      <section class="podcast">
+        <div class="podcast__container">
+          <h2 class="podcast__title">Podcast</h2>
+          <h3 class="coming">Próximamente</h3>
+        </div>
+      </section>
+      <section class="sermons">
+        <div class="sermons__container">
+          <h2 class="sermons__title">Podcast</h2>
+          <h3 class="coming">Próximamente</h3>
+        </div>
+      </section>
+      <section class="events">
+        <div class="events__container">
+          <h2 class="events__title">Eventos</h2>
+          <h3 class="coming">Próximamente</h3>
+        </div>
+      </section>
     </main>
     <footer></footer>
     <button class="add-button">Add to home screen</button>
-
-    <h2>Estudiando la Bíblia</h2>
-    <h3 id="month"></h3>
-    <dl id="content"></dl>
-    <h4>Preguntas de control</h4>
-    <ul id="questions"></ul>
-    <h2>Podcast</h2>
-    <h3>Próximamente</h3>
-    <h2>Eventos</h2>
-    <h3>Próximamente</h3>
-</body>
-
+  </body>
 </html>
