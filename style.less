@@ -15,7 +15,7 @@
 
 /* others */
 .paddings {
-    padding: 1rem;
+    padding: 2rem 1rem;
 }
 .gaps {
     gap: 1rem;
@@ -29,6 +29,14 @@ strong {
     font-weight: 600;
 }
 
+.triangulo {
+    width: 0;
+    height: 0;
+    border-top: 10px solid @color__black;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
+
 /* Header */
 header {
     background-color: @color__black;
@@ -39,12 +47,21 @@ header {
 .header {
     &__container {
         background: url(./img/header-temp-bg.jpg) no-repeat center/cover;
+        position: relative;
+        &::after {
+            left: 50%;
+            margin-left: -10px;
+            display: block;
+            content: "";
+            position: absolute;
+            .triangulo;
+        }
     }
     &__subtitle {
         display: flex;
         justify-content: center;
         align-items: center;
-        .paddings;
+        padding: 1rem;
         background-color: @color__red;
     }
     &__title {
@@ -52,7 +69,7 @@ header {
         justify-content: center;
         align-items: center;
         background-color: fade(@color__black, 50%);
-        .paddings;
+        padding: 1rem;
         .gaps;
         
     }
@@ -62,11 +79,73 @@ header {
         line-height: 41px;
         text-transform: uppercase;
     }
-
     &__logo {
         max-width: 80px;
         width: 100%;
         display: block;
         height: auto;
+    }
+}
+.btn {
+    background-color: @color__green;
+    padding: 1rem;
+    color: white;
+}
+.learning {
+    &__container {
+        .paddings;
+            .gaps;
+    }
+    &__title {
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 25px;
+            color: @color__red;
+            text-transform: uppercase;
+            text-align: center;
+    }
+    &__month {
+        display: block;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 33px;
+            text-align: center;
+            text-transform: uppercase;
+            color: @color__yellow;
+    }
+    &__dates {
+        margin: 2rem 0;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        .gaps;
+        dt {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed @color__black;
+            line-height: 1;
+            padding: 1rem;
+            text-align: center;
+        }
+        dd {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            line-height: 1;
+            padding: 1rem 0;
+        }
+    }
+    &__subtitle {
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 25px;
+            text-align: center;
+            color: @color__red;
+    }
+    &__list {
+            font-size: 16px;
+            line-height: 22px;
+            text-align: center;
+            color: @color__black;
     }
 }

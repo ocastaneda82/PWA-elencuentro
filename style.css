@@ -24,7 +24,7 @@
 }
 /* others */
 .paddings {
-  padding: 1rem;
+  padding: 2rem 1rem;
 }
 .gaps {
   gap: 1rem;
@@ -36,6 +36,13 @@ body {
 strong {
   font-weight: 600;
 }
+.triangulo {
+  width: 0;
+  height: 0;
+  border-top: 10px solid #222D3A;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}
 /* Header */
 header {
   background-color: #222D3A;
@@ -45,6 +52,19 @@ header * {
 }
 .header__container {
   background: url(img/header-temp-bg.jpg) no-repeat center / cover;
+  position: relative;
+}
+.header__container::after {
+  left: 50%;
+  margin-left: -10px;
+  display: block;
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #222D3A;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
 }
 .header__subtitle {
   display: flex;
@@ -72,4 +92,65 @@ header * {
   width: 100%;
   display: block;
   height: auto;
+}
+.btn {
+  background-color: #1DD624;
+  padding: 1rem;
+  color: white;
+}
+.learning__container {
+  padding: 2rem 1rem;
+  gap: 1rem;
+}
+.learning__title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  color: #B01917;
+  text-transform: uppercase;
+  text-align: center;
+}
+.learning__month {
+  display: block;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 33px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #D6B41D;
+}
+.learning__dates {
+  margin: 2rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+}
+.learning__dates dt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed #222D3A;
+  line-height: 1;
+  padding: 1rem;
+  text-align: center;
+}
+.learning__dates dd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 1;
+  padding: 1rem 0;
+}
+.learning__subtitle {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  text-align: center;
+  color: #B01917;
+}
+.learning__list {
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  color: #222D3A;
 }
