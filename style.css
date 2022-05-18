@@ -94,9 +94,14 @@ header * {
   height: auto;
 }
 .btn {
+  display: flex;
   background-color: #1dd624;
-  padding: 1rem;
+  justify-content: center;
+  align-items: center;
   color: white;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
 }
 .learning__container {
   padding: 2rem 1rem;
@@ -133,12 +138,20 @@ header * {
 }
 .learning__dates dt {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border: 1px dashed #222d3a;
   line-height: 1;
   padding: 1rem;
   text-align: center;
+}
+.learning__dates dt strong {
+  text-align: center;
+  font-weight: 700;
+  font-size: 42px;
+  color: #d6b41d;
+  margin-top: 8px;
 }
 .learning__dates dd {
   display: flex;

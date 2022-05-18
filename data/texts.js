@@ -1,28 +1,34 @@
-const month = "Abril";
+const month = "Mayo";
 const texts = [
   {
-    title: "Lunes 4",
-    vers: "Génesis 21:15-21",
+    day: "Lunes",
+    title: "16",
+    vers: "Génesis 35:1-15",
   },
   {
-    title: "Martes 5",
-    vers: "Génesis 21:22-34",
+    day: "Martes",
+    title: "17",
+    vers: "Génesis 35:16-21",
   },
   {
-    title: "Miércoles 6",
-    vers: "Génesis 22:1-8",
+    day: "Miércoles",
+    title: "18",
+    vers: "Génesis 35:22-29",
   },
   {
-    title: "Jueves 7",
-    vers: "Génesis 22:9-24",
+    day: "Jueves",
+    title: "19",
+    vers: "Génesis 36:1-43",
   },
   {
-    title: "Viernes 8",
-    vers: "Génesis 23",
+    day: "Viernes",
+    title: "20",
+    vers: "Génesis 37:1-11",
   },
   {
-    title: "Sábado 9",
-    vers: "Génesis 24:1-14",
+    day: "Sábado",
+    title: "21",
+    vers: "Génesis 37:12-24",
   },
 ];
 const questions = [

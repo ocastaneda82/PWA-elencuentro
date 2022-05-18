@@ -85,9 +85,14 @@ header {
   }
 }
 .btn {
+  display: flex;
   background-color: @color__green;
-  padding: 1rem;
+  justify-content: center;
+  align-items: center;
   color: white;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
 }
 .learning {
   &__container {
@@ -117,19 +122,27 @@ header {
     color: @color__yellow;
   }
   &__dates {
-      width: 100%;
+    width: 100%;
     margin: 2rem 0;
     display: grid;
     grid-template-columns: auto 1fr;
     .gaps;
     dt {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       border: 1px dashed @color__black;
       line-height: 1;
       padding: 1rem;
       text-align: center;
+      strong {
+        text-align: center;
+        font-weight: 700;
+        font-size: 42px;
+        color: @color__yellow;
+        margin-top: 8px;
+      }
     }
     dd {
       display: flex;
