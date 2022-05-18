@@ -36,6 +36,38 @@ strong {
   border-right: 10px solid transparent;
 }
 
+.btn {
+  display: flex;
+  background-color: @color__green;
+  justify-content: center;
+  align-items: center;
+  color: @color__black;
+  border-radius: 10px;
+  width: auto;
+  min-width: 40px;
+  height: 40px;
+  padding: 1px 0.5rem;
+  cursor: pointer;
+  &.disable {
+      cursor: not-allowed;
+      background-color: @color__gray;
+  }
+}
+.add-button {
+  position: relative;
+  &::after {
+    content: "Instalar";
+    display: block;
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    z-index: 10;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
 /* Header */
 header {
   background-color: @color__black;
@@ -70,6 +102,9 @@ header {
     background-color: fade(@color__black, 50%);
     padding: 1rem;
     .gaps;
+    .btn {
+      color: @color__black;
+    }
   }
   &__text {
     font-weight: 700;
@@ -83,16 +118,6 @@ header {
     display: block;
     height: auto;
   }
-}
-.btn {
-  display: flex;
-  background-color: @color__green;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  border-radius: 10px;
-  width: 40px;
-  height: 40px;
 }
 .learning {
   &__container {
