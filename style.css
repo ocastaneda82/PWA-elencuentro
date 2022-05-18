@@ -30,7 +30,7 @@
   gap: 1rem;
 }
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   font-weight: 300;
 }
 strong {
@@ -39,13 +39,13 @@ strong {
 .triangulo {
   width: 0;
   height: 0;
-  border-top: 10px solid #222D3A;
+  border-top: 10px solid #222d3a;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
 }
 /* Header */
 header {
-  background-color: #222D3A;
+  background-color: #222d3a;
 }
 header * {
   color: white;
@@ -62,7 +62,7 @@ header * {
   position: absolute;
   width: 0;
   height: 0;
-  border-top: 10px solid #222D3A;
+  border-top: 10px solid #222d3a;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
 }
@@ -71,7 +71,7 @@ header * {
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  background-color: #B01917;
+  background-color: #b01917;
 }
 .header__title {
   display: flex;
@@ -94,19 +94,24 @@ header * {
   height: auto;
 }
 .btn {
-  background-color: #1DD624;
+  background-color: #1dd624;
   padding: 1rem;
   color: white;
 }
 .learning__container {
   padding: 2rem 1rem;
   gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 450px;
+  margin: 0 auto;
 }
 .learning__title {
   font-weight: 600;
   font-size: 18px;
   line-height: 25px;
-  color: #B01917;
+  color: #b01917;
   text-transform: uppercase;
   text-align: center;
 }
@@ -117,9 +122,10 @@ header * {
   line-height: 33px;
   text-align: center;
   text-transform: uppercase;
-  color: #D6B41D;
+  color: #d6b41d;
 }
 .learning__dates {
+  width: 100%;
   margin: 2rem 0;
   display: grid;
   grid-template-columns: auto 1fr;
@@ -129,7 +135,7 @@ header * {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px dashed #222D3A;
+  border: 1px dashed #222d3a;
   line-height: 1;
   padding: 1rem;
   text-align: center;
@@ -138,7 +144,7 @@ header * {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  line-height: 1;
+  line-height: 1.2;
   padding: 1rem 0;
 }
 .learning__subtitle {
@@ -146,11 +152,11 @@ header * {
   font-size: 18px;
   line-height: 25px;
   text-align: center;
-  color: #B01917;
+  color: #b01917;
 }
 .learning__list {
   font-size: 16px;
   line-height: 22px;
   text-align: center;
-  color: #222D3A;
+  color: #222d3a;
 }
