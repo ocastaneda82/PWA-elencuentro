@@ -77,8 +77,26 @@ navigator.serviceWorker.onmessage = (event) => {
   const message = JSON.parse(event.data);
   //TODO: detect the type of message and refresh the view
   console.log(message);
-  if (message && message.type.includes('/bibles/users')) {
+  if (message && message.type.includes('/bibles/')) {
     console.log('List of attendees to date', message.data);
     renderAttendees(message.data);
   }
 };
+
+var myHeaders = new Headers();
+myHeaders.append('accept', 'application/json');
+myHeaders.append('api-key', '9e3691df3405154e2a29a793923104bd');
+
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow',
+};
+
+fetch(
+  'https://api.scripture.api.bible/v1/bibles/b32b9d1b64b4ef29-01/verses/GEN.2.2?content-type=html&include-notes=false&include-titles=true&include-chapter-numbers=false&include-verse-numbers=true&include-verse-spans=false&use-org-id=false',
+  requestOptions
+)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.log('error', error));
