@@ -1,39 +1,39 @@
-self.importScripts("data/texts.js");
+self.importScripts('data/texts.js');
 
 // Files to cache
-const cacheName = "eePWA-v5";
+const cacheName = 'eePWA-v5';
 const contentToCache = [
-  "/PWA-elencuentro/",
-  "/PWA-elencuentro/index.html",
-  "/PWA-elencuentro/app.js",
-  "/PWA-elencuentro/style.css",
-  "/PWA-elencuentro/reset.css",
-  "/PWA-elencuentro/favicon.ico",
-  "/PWA-elencuentro/img/logo.png",
-  "/PWA-elencuentro/img/header-temp-bg.jpg",
-  "/PWA-elencuentro/icons/android-chrome-192x192.png",
-  "/PWA-elencuentro/icons/android-chrome-384x384.png",
-  "/PWA-elencuentro/icons/apple-touch-icon.png",
-  "/PWA-elencuentro/icons/favicon-16x16.png",
-  "/PWA-elencuentro/icons/favicon-32x32.png",
-  "/PWA-elencuentro/icons/mstile-150x150.png",
-  "/PWA-elencuentro/icons/safari-pinned-tab.svg",
+  '/PWA-elencuentro/',
+  '/PWA-elencuentro/index.html',
+  '/PWA-elencuentro/app.js',
+  '/PWA-elencuentro/style.css',
+  '/PWA-elencuentro/reset.css',
+  '/PWA-elencuentro/favicon.ico',
+  '/PWA-elencuentro/img/logo.png',
+  '/PWA-elencuentro/img/header-temp-bg.jpg',
+  '/PWA-elencuentro/icons/android-chrome-192x192.png',
+  '/PWA-elencuentro/icons/android-chrome-384x384.png',
+  '/PWA-elencuentro/icons/apple-touch-icon.png',
+  '/PWA-elencuentro/icons/favicon-16x16.png',
+  '/PWA-elencuentro/icons/favicon-32x32.png',
+  '/PWA-elencuentro/icons/mstile-150x150.png',
+  '/PWA-elencuentro/icons/safari-pinned-tab.svg',
 ];
 
 // Installing Service Worker
-self.addEventListener("install", (e) => {
-  console.log("[Service Worker] Install");
+self.addEventListener('install', (e) => {
+  console.log('[Service Worker] Install');
   e.waitUntil(
     (async () => {
       const cache = await caches.open(cacheName);
-      console.log("[Service Worker] Caching all: app shell and content");
+      console.log('[Service Worker] Caching all: app shell and content');
       await cache.addAll(contentToCache);
     })()
   );
 });
 
 // Fetching content using Service Worker
-self.addEventListener("fetch", (e) => {
+self.addEventListener('fetch', (e) => {
   e.respondWith(
     (async () => {
       const r = await caches.match(e.request);
@@ -47,3 +47,45 @@ self.addEventListener("fetch", (e) => {
     })()
   );
 });
+
+self.addEventListener('fetch', (event) => {
+  if (event.request.url.includes('/bibles/')) {
+    // response to API requests, Cache Update Refresh strategy
+    event.respondWith(caches.match(event.request));
+    event.waitUntil(update(event.request)).then(refresh); //TODO: refresh
+    //TODO: update et refresh
+  } else {
+    // response to static files requests, Cache-First strategy
+  }
+});
+
+const delay = (ms) => (_) =>
+  new Promise((resolve) => setTimeout(() => resolve(_), ms));
+
+function update(request) {
+  return fetch(request.url).then(
+    (response) =>
+      cache(request, response) // we can put response in cache
+        .then(delay(3000)) // add a fake latency of 3 seconds
+        .then(() => response) // resolve promise with the Response object
+  );
+}
+
+function refresh(response) {
+  return response
+    .json() // read and parse JSON response
+    .then((jsonResponse) => {
+      self.clients.matchAll().then((clients) => {
+        clients.forEach((client) => {
+          // report and send new data to client
+          client.postMessage(
+            JSON.stringify({
+              type: response.url,
+              data: jsonResponse.data,
+            })
+          );
+        });
+      });
+      return jsonResponse.data; // resolve promise with new data
+    });
+}
