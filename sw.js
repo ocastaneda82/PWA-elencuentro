@@ -1,7 +1,7 @@
 self.importScripts('data/texts.js');
 
 // Files to cache
-const cacheName = 'eePWA-v6';
+const cacheName = 'eePWA-v7';
 const contentToCache = [
   '/PWA-elencuentro/',
   '/PWA-elencuentro/index.html',
