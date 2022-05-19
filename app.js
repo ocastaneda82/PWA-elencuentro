@@ -16,23 +16,21 @@ DAY <strong>TITLE</strong>
 </svg>
 </button>
 </dd>`;
-const range = (min, max) =>
-  Array.from({ length: max - min + 1 }, (_, i) => min + i);
-const runRange = (arr) => {
-  return arr.length === 2 ? range(arr[0], arr[1]) : arr[0];
-};
+// const range = (min, max) =>
+//   Array.from({ length: max - min + 1 }, (_, i) => min + i);
+// const runRange = (arr) => {
+//   return arr.length === 2 ? range(arr[0], arr[1]) : arr[0];
+// };
 let content = '';
 for (let i = 0; i < texts.length; i++) {
-  let arrVerses = runRange(texts[i].verses);
   let versesOriginal = String(texts[i].verses).replace(',', '-');
-
   let entry = textsTemplate
     .replace(/DAY/g, texts[i].day)
     .replace(/TITLE/g, texts[i].title)
     .replace(/BOOK/g, texts[i].book)
     .replace(/CHAP/g, texts[i].chapter)
     .replace(/ORIVER/g, versesOriginal)
-    .replace(/VERS/g, arrVerses);
+    .replace(/VERS/g, texts[i].verses);
   content += entry;
 }
 document.getElementById('content').innerHTML = content;
@@ -103,11 +101,11 @@ buttonApi.forEach((item) => {
     let verses = item.getAttribute('data-verses');
     let arrVerses = verses.split(',').filter((i) => i !== ',');
     console.log(book, chapter, arrVerses);
-    getDataFromApi(book, chapter, arrVerses);
+    getPassagesFromApi(book, chapter, arrVerses);
   });
 });
 
-const getDataFromApi = (book, chapter, arrVerses) => {
+async function getBooksFromApi() {
   var myHeaders = new Headers();
   myHeaders.append('accept', 'application/json');
   myHeaders.append('api-key', '9e3691df3405154e2a29a793923104bd');
@@ -117,14 +115,38 @@ const getDataFromApi = (book, chapter, arrVerses) => {
     headers: myHeaders,
     redirect: 'follow',
   };
-  let allData = '';
-
-  fetch(
-    `https://api.scripture.api.bible/v1/bibles/b32b9d1b64b4ef29-01/passages/${book}.${chapter}.${arrVerses[0]}-${book}.${chapter}.${arrVerses[1]}?content-type=html&include-notes=false&include-titles=true&include-chapter-numbers=false&include-verse-numbers=true&include-verse-spans=false&use-org-id=false`,
+  let response = await fetch(
+    'https://api.scripture.api.bible/v1/bibles/b32b9d1b64b4ef29-01/books',
     requestOptions
-  )
-    .then((response) => response.json())
-    .then((result) => (allData = result.data.content))
-    .catch((error) => console.log('error', error));
-  console.log(allData);
-};
+  );
+  let data = await response.json();
+  data = JSON.stringify(data);
+  data = JSON.parse(data);
+  return data;
+}
+
+async function getPassagesFromApi(book, chapter, arrVerses) {
+  let books = await getBooksFromApi();
+  console.log(books);
+  var myHeaders = new Headers();
+  myHeaders.append('accept', 'application/json');
+  myHeaders.append('api-key', '9e3691df3405154e2a29a793923104bd');
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow',
+  };
+
+  let temp = 'GEN';
+
+  let response = await fetch(
+    `https://api.scripture.api.bible/v1/bibles/b32b9d1b64b4ef29-01/passages/${temp}.${chapter}.${arrVerses[0]}-${temp}.${chapter}.${arrVerses[1]}?content-type=html&include-notes=false&include-titles=true&include-chapter-numbers=false&include-verse-numbers=true&include-verse-spans=false&use-org-id=false`,
+    requestOptions
+  );
+  let data = await response.json();
+  data = JSON.stringify(data);
+  data = JSON.parse(data);
+  console.log(data.data.content);
+  return data;
+}
