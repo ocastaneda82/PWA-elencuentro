@@ -34,6 +34,7 @@ self.addEventListener('install', (e) => {
 
 // Fetching content using Service Worker
 self.addEventListener('fetch', (e) => {
+  if (!(e.request.url.indexOf('http') === 0)) return;
   e.respondWith(
     (async () => {
       const r = await caches.match(e.request);
