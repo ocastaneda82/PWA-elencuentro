@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="reset.css" />
     <link rel="manifest" href="eepwa.webmanifest" />
+    <script src="cta-modal.js" defer></script>
     <script src="data/texts.js" defer></script>
     <script src="app.js" defer></script>
   </head>
@@ -68,5 +69,27 @@
       </section> -->
     </main>
     <!-- <footer></footer> -->
+    <cta-modal id="PASSAGES_MODAL">
+
+  <div slot="button">
+    <p>
+      <button
+        class="cta-modal-toggle"
+        type="button"
+      >Open modal</button>
+    </p>
+  </div>
+
+  <div slot="modal">
+    <div class="modal-content"></div>
+    <!-- <p>
+      <button
+        class="cta-modal-toggle"
+        type="button"
+      >Close modal</button>
+    </p> -->
+  </div>
+
+</cta-modal>
   </body>
 </html>

@@ -124,10 +124,25 @@ async function getBooksFromApi() {
   data = JSON.parse(data);
   return data;
 }
+function toggleModal(id, data) {
+  const modal = document.getElementById(id);
+  if (modal) {
+    const container = modal.getElementsByClassName('modal-content')[0];
+    container.insertAdjacentHTML('afterend', data);
+    const bool = modal.getAttribute('active') === String(true);
+    modal.setAttribute('active', !bool);
+  }
+}
+
+function transformBooks(book, books) {
+  let changedBook = books?.data.find((item) => item.name === book);
+  changedBook = changedBook.abbreviation;
+  return changedBook;
+}
 
 async function getPassagesFromApi(book, chapter, arrVerses) {
   let books = await getBooksFromApi();
-  console.log(books);
+  let abbrBook = await transformBooks(book, books);
   var myHeaders = new Headers();
   myHeaders.append('accept', 'application/json');
   myHeaders.append('api-key', '9e3691df3405154e2a29a793923104bd');
@@ -138,15 +153,13 @@ async function getPassagesFromApi(book, chapter, arrVerses) {
     redirect: 'follow',
   };
 
-  let temp = 'GEN';
-
   let response = await fetch(
-    `https://api.scripture.api.bible/v1/bibles/b32b9d1b64b4ef29-01/passages/${temp}.${chapter}.${arrVerses[0]}-${temp}.${chapter}.${arrVerses[1]}?content-type=html&include-notes=false&include-titles=true&include-chapter-numbers=false&include-verse-numbers=true&include-verse-spans=false&use-org-id=false`,
+    `https://api.scripture.api.bible/v1/bibles/b32b9d1b64b4ef29-01/passages/${abbrBook}.${chapter}.${arrVerses[0]}-${abbrBook}.${chapter}.${arrVerses[1]}?content-type=html&include-notes=false&include-titles=true&include-chapter-numbers=false&include-verse-numbers=true&include-verse-spans=false&use-org-id=false`,
     requestOptions
   );
-  let data = await response.json();
+  let { data } = await response.json();
   data = JSON.stringify(data);
   data = JSON.parse(data);
-  console.log(data.data.content);
-  return data;
+  toggleModal('PASSAGES_MODAL', data.content);
+  console.log(data.content);
 }
