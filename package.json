@@ -1,0 +1,23 @@
+{
+  "name": "pwa-elencuentro",
+  "version": "1.0.0",
+  "description": "Primer acercamiento de PWA para contenidos específicos del encuentro.",
+  "main": "app.js",
+  "scripts": {
+    "start": "http-server -c-1 -p 3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ocastaneda82/PWA-elencuentro.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ocastaneda82/PWA-elencuentro/issues"
+  },
+  "homepage": "https://github.com/ocastaneda82/PWA-elencuentro#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^14.1.0"
+  }
+}

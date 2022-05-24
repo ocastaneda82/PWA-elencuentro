@@ -32,15 +32,13 @@
       "src": "icons/mstile-150x150.png",
       "sizes": "150x150",
       "type": "image/png"
-    },
-    {
-      "src": "icons/safari-pinned-tab.svg",
-      "sizes": "150x150",
-      "type": "image/svg"
     }
   ],
-  "start_url": "/PWA-elencuentro/index.html",
+  "start_url": "/index.html",
+  "id": "/index.html",
+  "scope": ".",
   "display": "fullscreen",
   "theme_color": "#B12A34",
-  "background_color": "#B12A34"
+  "background_color": "#B12A34",
+  "orientation": "portrait-primary"
 }

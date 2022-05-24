@@ -3,22 +3,37 @@ self.importScripts('data/texts.js');
 // Files to cache
 const cacheName = 'eePWA-v7';
 const contentToCache = [
-  '/PWA-elencuentro/',
-  '/PWA-elencuentro/index.html',
-  '/PWA-elencuentro/app.js',
-  '/PWA-elencuentro/style.css',
-  '/PWA-elencuentro/reset.css',
-  '/PWA-elencuentro/favicon.ico',
-  '/PWA-elencuentro/img/logo.png',
-  '/PWA-elencuentro/img/header-temp-bg.jpg',
-  '/PWA-elencuentro/icons/android-chrome-192x192.png',
-  '/PWA-elencuentro/icons/android-chrome-384x384.png',
-  '/PWA-elencuentro/icons/apple-touch-icon.png',
-  '/PWA-elencuentro/icons/favicon-16x16.png',
-  '/PWA-elencuentro/icons/favicon-32x32.png',
-  '/PWA-elencuentro/icons/mstile-150x150.png',
-  '/PWA-elencuentro/icons/safari-pinned-tab.svg',
+  '/',
+  '/index.html',
+  '/app.js',
+  '/style.css',
+  '/reset.css',
+  '/favicon.ico',
+  '/img/logo.png',
+  '/img/header-temp-bg.jpg',
+  '/icons/android-chrome-192x192.png',
+  '/icons/android-chrome-384x384.png',
+  '/icons/apple-touch-icon.png',
+  '/icons/favicon-16x16.png',
+  '/icons/favicon-32x32.png',
+  '/icons/mstile-150x150.png',
 ];
+// const contentToCache = [
+//   '/PWA-elencuentro/',
+//   '/PWA-elencuentro/index.html',
+//   '/PWA-elencuentro/app.js',
+//   '/PWA-elencuentro/style.css',
+//   '/PWA-elencuentro/reset.css',
+//   '/PWA-elencuentro/favicon.ico',
+//   '/PWA-elencuentro/img/logo.png',
+//   '/PWA-elencuentro/img/header-temp-bg.jpg',
+//   '/PWA-elencuentro/icons/android-chrome-192x192.png',
+//   '/PWA-elencuentro/icons/android-chrome-384x384.png',
+//   '/PWA-elencuentro/icons/apple-touch-icon.png',
+//   '/PWA-elencuentro/icons/favicon-16x16.png',
+//   '/PWA-elencuentro/icons/favicon-32x32.png',
+//   '/PWA-elencuentro/icons/mstile-150x150.png',
+// ];
 
 // Installing Service Worker
 self.addEventListener('install', (e) => {

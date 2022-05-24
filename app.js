@@ -50,7 +50,8 @@ document.getElementById('questions').innerHTML = questionsContent;
 
 // Registering Service Worker
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/PWA-elencuentro/sw.js');
+  navigator.serviceWorker.register('/sw.js');
+  // navigator.serviceWorker.register('/PWA-elencuentro/sw.js');
 }
 
 let deferredPrompt;
