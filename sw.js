@@ -37,7 +37,7 @@ const contentToCache = [
 
 // Installing Service Worker
 self.addEventListener('install', (e) => {
-  console.log('[Service Worker] Install');
+  console.log('[Service Worker] Install', e);
   e.waitUntil(
     (async () => {
       const cache = await caches.open(cacheName);
@@ -46,9 +46,13 @@ self.addEventListener('install', (e) => {
     })()
   );
 });
-
+self.addEventListener('activate', (e) => {
+  console.log('[Service Worker] Activate', e);
+  return self.clients.claim();
+});
 // Fetching content using Service Worker
 self.addEventListener('fetch', (e) => {
+  console.log('[Service Worker] fetch', e);
   if (!(e.request.url.indexOf('http') === 0)) return;
   e.respondWith(
     (async () => {

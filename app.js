@@ -50,7 +50,9 @@ document.getElementById('questions').innerHTML = questionsContent;
 
 // Registering Service Worker
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
+  navigator.serviceWorker.register('/sw.js').then(() => {
+    console.log('Service worker registered');
+  });
   // navigator.serviceWorker.register('/PWA-elencuentro/sw.js');
 }
 
@@ -60,6 +62,7 @@ addBtn.style.display = 'none';
 
 window.addEventListener('beforeinstallprompt', (e) => {
   // Prevent Chrome 67 and earlier from automatically showing the prompt
+  console.log('Prompt was triggered');
   e.preventDefault();
   // Stash the event so it can be triggered later.
   deferredPrompt = e;
