@@ -1,7 +1,7 @@
 self.importScripts('data/texts.js');
 
 // Files to cache
-const cacheName = 'eePWA-v7';
+const cacheName = 'eePWA-v8';
 const contentToCache = [
   '/',
   '/index.html',
@@ -48,6 +48,18 @@ self.addEventListener('install', (e) => {
 });
 self.addEventListener('activate', (e) => {
   console.log('[Service Worker] Activate', e);
+  e.waitUntil(
+    caches.keys().then((kl) => {
+      return Promise.all(
+        kl.map((k) => {
+          if (k !== cacheName) {
+            console.log('[Service Worker] Removing old cache', k);
+            return caches.delete(k);
+          }
+        })
+      );
+    })
+  );
   return self.clients.claim();
 });
 // Fetching content using Service Worker
