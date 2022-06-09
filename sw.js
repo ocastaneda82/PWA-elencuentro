@@ -1,7 +1,7 @@
 self.importScripts('data/texts.js');
 
 // Files to cache
-const cacheName = 'eePWA-v8';
+const cacheName = 'eePWA-v11';
 const contentToCache = [
   '/',
   '/index.html',
@@ -66,28 +66,31 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   console.log('[Service Worker] fetch', e);
   if (!(e.request.url.indexOf('http') === 0)) return;
-  e.respondWith(
-    (async () => {
-      const r = await caches.match(e.request);
-      console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
-      if (r) return r;
-      const response = await fetch(e.request);
-      const cache = await caches.open(cacheName);
-      console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
-      cache.put(e.request, response.clone());
-      return response;
-    })()
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  if (event.request.url.includes('/bibles/')) {
+  if (e.request.url.includes('/bibles/')) {
     // response to API requests, Cache Update Refresh strategy
-    event.respondWith(caches.match(event.request));
-    event.waitUntil(update(event.request)).then(refresh); //TODO: refresh
+    e.respondWith(caches.match(e.request));
+    e.waitUntil(update(e.request)).then(refresh); //TODO: refresh
     //TODO: update et refresh
+  } else if (
+    new RegExp('\\b' + contentToCache.join('\\b|\\b') + '\\b').test(
+      e.request.url
+    )
+  ) {
+    e.respondWith(caches.match(e.request));
   } else {
     // response to static files requests, Cache-First strategy
+    e.respondWith(
+      (async () => {
+        const r = await caches.match(e.request);
+        console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
+        if (r) return r;
+        const response = await fetch(e.request);
+        const cache = await caches.open(cacheName);
+        console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
+        cache.put(e.request, response.clone());
+        return response;
+      })()
+    );
   }
 });
 
