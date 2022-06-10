@@ -75,7 +75,7 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(async () => {
       const r = await caches.open(CACHE_DYNAMIC_NAME);
       if (r) return r;
-      const up = update(e.request)).then(refresh);
+      const response = e.waitUntil(update(e.request)).then(refresh);
       cache.put(e.request, response.clone());
       return response;
     });
