@@ -1,11 +1,14 @@
 self.importScripts('data/texts.js');
 
 // Files to cache
-const cacheName = 'eePWA-v11';
-const contentToCache = [
+const cacheName = 'eePWA-v20';
+var CACHE_DYNAMIC_NAME = 'dynamic-v5';
+const STATIC_FILES = [
   '/',
   '/index.html',
   '/app.js',
+  '/data/texts.js',
+  '/cta-modal.js',
   '/style.css',
   '/reset.css',
   '/favicon.ico',
@@ -17,8 +20,9 @@ const contentToCache = [
   '/icons/favicon-16x16.png',
   '/icons/favicon-32x32.png',
   '/icons/mstile-150x150.png',
+  'https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap',
 ];
-// const contentToCache = [
+// const STATIC_FILES = [
 //   '/PWA-elencuentro/',
 //   '/PWA-elencuentro/index.html',
 //   '/PWA-elencuentro/app.js',
@@ -42,7 +46,7 @@ self.addEventListener('install', (e) => {
     (async () => {
       const cache = await caches.open(cacheName);
       console.log('[Service Worker] Caching all: app shell and content');
-      await cache.addAll(contentToCache);
+      await cache.addAll(STATIC_FILES);
     })()
   );
 });
@@ -52,6 +56,7 @@ self.addEventListener('activate', (e) => {
     caches.keys().then((kl) => {
       return Promise.all(
         kl.map((k) => {
+          console.log(k);
           if (k !== cacheName) {
             console.log('[Service Worker] Removing old cache', k);
             return caches.delete(k);
@@ -64,17 +69,30 @@ self.addEventListener('activate', (e) => {
 });
 // Fetching content using Service Worker
 self.addEventListener('fetch', (e) => {
-  console.log('[Service Worker] fetch', e);
   if (!(e.request.url.indexOf('http') === 0)) return;
   if (e.request.url.includes('/bibles/')) {
+    console.log('[Service Worker] Buscando la biblia', e);
+    e.respondWith(async () => {
+      const r = await caches.open(CACHE_DYNAMIC_NAME);
+      if (r) return r;
+      const up = update(e.request)).then(refresh);
+      cache.put(e.request, response.clone());
+      return response;
+    });
+    // e.respondWith(
+    //   caches.open(CACHE_DYNAMIC_NAME).then(function (cache) {
+    //     return fetch(e.request).then(function (res) {
+    //       cache.put(e.request, res.clone());
+    //       return res;
+    //     });
+    //   })
+    // );
     // response to API requests, Cache Update Refresh strategy
-    e.respondWith(caches.match(e.request));
-    e.waitUntil(update(e.request)).then(refresh); //TODO: refresh
+    // e.respondWith(caches.match(e.request));
+    // e.waitUntil(update(e.request)).then(refresh); //TODO: refresh
     //TODO: update et refresh
   } else if (
-    new RegExp('\\b' + contentToCache.join('\\b|\\b') + '\\b').test(
-      e.request.url
-    )
+    new RegExp('\\b' + STATIC_FILES.join('\\b|\\b') + '\\b').test(e.request.url)
   ) {
     e.respondWith(caches.match(e.request));
   } else {
