@@ -1,7 +1,7 @@
 self.importScripts('data/texts.js');
 
 // Files to cache
-const cacheName = 'eePWA-v20';
+const cacheName = 'eePWA-v21';
 var CACHE_DYNAMIC_NAME = 'dynamic-v5';
 const STATIC_FILES = [
   '/',
@@ -20,7 +20,9 @@ const STATIC_FILES = [
   '/icons/favicon-16x16.png',
   '/icons/favicon-32x32.png',
   '/icons/mstile-150x150.png',
-  'https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap',
+  'https://fonts.gstatic.com/s/nunito/v24/XRXI3I6Li01BKofiOc5wtlZ2di8HDOUhRTM.ttf',
+  'https://fonts.gstatic.com/s/nunito/v24/XRXI3I6Li01BKofiOc5wtlZ2di8HDLshRTM.ttf',
+  'https://fonts.gstatic.com/s/nunito/v24/XRXI3I6Li01BKofiOc5wtlZ2di8HDGUmRTM.ttf',
 ];
 // const STATIC_FILES = [
 //   '/PWA-elencuentro/',
@@ -117,10 +119,10 @@ const delay = (ms) => (_) =>
 
 function update(request) {
   return fetch(request.url).then(
-    (response) =>
-      cache(request, response) // we can put response in cache
-        .then(delay(3000)) // add a fake latency of 3 seconds
-        .then(() => response) // resolve promise with the Response object
+    (response) => console.log(response)
+    // cache(request, response) // we can put response in cache
+    //   .then(delay(3000)) // add a fake latency of 3 seconds
+    //   .then(() => response) // resolve promise with the Response object
   );
 }
 
