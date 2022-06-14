@@ -136,3 +136,19 @@ fetch(url)
     console.log('From web', data);
     getData();
   });
+
+if ('caches' in window) {
+  caches
+    .match(url)
+    .then(function (response) {
+      if (response) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+      console.log('From cache', data);
+      if (!networkDataReceived) {
+        getData();
+      }
+    });
+}

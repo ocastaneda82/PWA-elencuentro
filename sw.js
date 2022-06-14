@@ -1,8 +1,8 @@
 self.importScripts('data/texts.js');
 
 // Files to cache
-const cacheName = 'eePWA-v08';
-var CACHE_DYNAMIC_BOOKS = 'dynamic-books-v08';
+const cacheName = 'eePWA-v01';
+var CACHE_DYNAMIC_BOOKS = 'dynamic-books-v01';
 // var CACHE_DYNAMIC_PASSAGES = 'dynamic-passages-v04';
 const STATIC_FILES = [
   '/',
@@ -86,7 +86,7 @@ self.addEventListener('fetch', (e) => {
   //   );
   // }
   const url = 'https://httpbin.org/get';
-  if (e.request.url.includes(url)) {
+  if (e.request.url.indexOf(url) > -1) {
     console.log('[Service Worker] Getting Week Info', e);
     e.respondWith(
       caches.open(CACHE_DYNAMIC_BOOKS).then(async function (cache) {
