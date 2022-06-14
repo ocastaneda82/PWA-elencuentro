@@ -36,12 +36,12 @@ window.addEventListener('beforeinstallprompt', (e) => {
   });
 });
 
-navigator.serviceWorker.onmessage = (event) => {
-  const message = JSON.parse(event.data);
-  //TODO: detect the type of message and refresh the view
-  console.log(message);
-  if (message && message.type.includes('/bibles/')) {
-    console.log('List of attendees to date', message.data);
-    renderAttendees(message.data);
-  }
-};
+// navigator.serviceWorker.onmessage = (event) => {
+//   const message = JSON.parse(event.data);
+//   //TODO: detect the type of message and refresh the view
+//   console.log(message);
+//   if (message && message.type.includes('/bibles/')) {
+//     console.log('List of attendees to date', message.data);
+//     renderAttendees(message.data);
+//   }
+// };
