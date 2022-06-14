@@ -1,5 +1,5 @@
-const month = 'Mayo';
-const texts = [
+var month = 'Mayo';
+var texts = [
   {
     day: 'Lunes',
     title: 16,

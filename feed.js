@@ -1,3 +1,5 @@
+// self.importScripts('data/texts.js');
+
 const getData = () => {
   // Generating texts content based on the Template
   const textsTemplate = `<dt>

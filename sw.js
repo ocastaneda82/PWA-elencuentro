@@ -1,8 +1,6 @@
-self.importScripts('data/texts.js');
-
 // Files to cache
-const cacheName = 'eePWA-v01';
-var CACHE_DYNAMIC_BOOKS = 'dynamic-books-v01';
+const cacheName = 'eePWA-v005';
+var CACHE_DYNAMIC_BOOKS = 'dynamic-books-v005';
 // var CACHE_DYNAMIC_PASSAGES = 'dynamic-passages-v04';
 const STATIC_FILES = [
   '/',
@@ -28,19 +26,7 @@ const STATIC_FILES = [
 ];
 // const STATIC_FILES = [
 //   '/PWA-elencuentro/',
-//   '/PWA-elencuentro/index.html',
-//   '/PWA-elencuentro/app.js',
-//   '/PWA-elencuentro/style.css',
-//   '/PWA-elencuentro/reset.css',
-//   '/PWA-elencuentro/favicon.ico',
-//   '/PWA-elencuentro/img/logo.png',
-//   '/PWA-elencuentro/img/header-temp-bg.jpg',
-//   '/PWA-elencuentro/icons/android-chrome-192x192.png',
-//   '/PWA-elencuentro/icons/android-chrome-384x384.png',
-//   '/PWA-elencuentro/icons/apple-touch-icon.png',
-//   '/PWA-elencuentro/icons/favicon-16x16.png',
-//   '/PWA-elencuentro/icons/favicon-32x32.png',
-//   '/PWA-elencuentro/icons/mstile-150x150.png',
+//   '/PWA-elencuentro/index.html'...
 // ];
 
 // Installing Service Worker
@@ -61,7 +47,7 @@ self.addEventListener('activate', (e) => {
       return Promise.all(
         kl.map((k) => {
           console.log(k);
-          if (k !== cacheName) {
+          if (k !== cacheName && k !== CACHE_DYNAMIC_BOOKS) {
             console.log('[Service Worker] Removing old cache', k);
             return caches.delete(k);
           }
@@ -73,26 +59,17 @@ self.addEventListener('activate', (e) => {
 });
 // Fetching content using Service Worker
 self.addEventListener('fetch', (e) => {
-  if (!(e.request.url.indexOf('http') === 0)) return;
-  // if (e.request.url.includes('/passages')) {
-  //   console.log('[Service Worker] Buscando pasages', e);
-  //   e.respondWith(
-  //     caches.open(CACHE_DYNAMIC_PASSAGES).then(function (cache) {
-  //       return fetch(e.request).then(function (res) {
-  //         cache.put(e.request, res.clone());
-  //         return res;
-  //       });
-  //     })
-  //   );
-  // }
+  // if (!(e.request.url.indexOf('http') === 0)) return;
+
   const url = 'https://httpbin.org/get';
   if (e.request.url.indexOf(url) > -1) {
     console.log('[Service Worker] Getting Week Info', e);
     e.respondWith(
-      caches.open(CACHE_DYNAMIC_BOOKS).then(async function (cache) {
-        const res = await fetch(e.request);
-        cache.put(e.request, res.clone());
-        return res;
+      caches.open(CACHE_DYNAMIC_BOOKS).then(function (cache) {
+        return fetch(e.request).then(function (res) {
+          cache.put(e.request, res.clone());
+          return res;
+        });
       })
     );
   } else if (
@@ -104,16 +81,23 @@ self.addEventListener('fetch', (e) => {
     // response to static files requests, Cache-First strategy
     console.log('Buscando los archivos y guardándolos en cache');
     e.respondWith(
-      (async () => {
-        const r = await caches.match(e.request);
-        console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
-        if (r) return r;
-        const response = await fetch(e.request);
-        const cache = await caches.open(cacheName);
-        console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
-        cache.put(e.request, response.clone());
-        return response;
-      })()
+      caches.match(e.request).then(function (response) {
+        if (response) {
+          return response;
+        } else {
+          return fetch(e.request).then(function (res) {
+            return caches.open(CACHE_DYNAMIC_NAME).then(function (cache) {
+              cache.put(e.request.url, res.clone());
+              return res;
+            });
+          });
+          // .catch(function (err) {
+          //   return caches.open(STATIC_FILES).then(function (cache) {
+          //     return cache.match('/offline.html');
+          //   });
+          // });
+        }
+      })
     );
   }
 });
