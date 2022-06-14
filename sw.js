@@ -1,12 +1,14 @@
 self.importScripts('data/texts.js');
 
 // Files to cache
-const cacheName = 'eePWA-v21';
-var CACHE_DYNAMIC_NAME = 'dynamic-v5';
+const cacheName = 'eePWA-v08';
+var CACHE_DYNAMIC_BOOKS = 'dynamic-books-v08';
+// var CACHE_DYNAMIC_PASSAGES = 'dynamic-passages-v04';
 const STATIC_FILES = [
   '/',
   '/index.html',
   '/app.js',
+  '/feed.js',
   '/data/texts.js',
   '/cta-modal.js',
   '/style.css',
@@ -72,33 +74,35 @@ self.addEventListener('activate', (e) => {
 // Fetching content using Service Worker
 self.addEventListener('fetch', (e) => {
   if (!(e.request.url.indexOf('http') === 0)) return;
-  if (e.request.url.includes('/bibles/')) {
-    console.log('[Service Worker] Buscando la biblia', e);
-    e.respondWith(async () => {
-      const r = await caches.open(CACHE_DYNAMIC_NAME);
-      if (r) return r;
-      const response = e.waitUntil(update(e.request)).then(refresh);
-      cache.put(e.request, response.clone());
-      return response;
-    });
-    // e.respondWith(
-    //   caches.open(CACHE_DYNAMIC_NAME).then(function (cache) {
-    //     return fetch(e.request).then(function (res) {
-    //       cache.put(e.request, res.clone());
-    //       return res;
-    //     });
-    //   })
-    // );
-    // response to API requests, Cache Update Refresh strategy
-    // e.respondWith(caches.match(e.request));
-    // e.waitUntil(update(e.request)).then(refresh); //TODO: refresh
-    //TODO: update et refresh
+  // if (e.request.url.includes('/passages')) {
+  //   console.log('[Service Worker] Buscando pasages', e);
+  //   e.respondWith(
+  //     caches.open(CACHE_DYNAMIC_PASSAGES).then(function (cache) {
+  //       return fetch(e.request).then(function (res) {
+  //         cache.put(e.request, res.clone());
+  //         return res;
+  //       });
+  //     })
+  //   );
+  // }
+  const url = 'https://httpbin.org/get';
+  if (e.request.url.includes(url)) {
+    console.log('[Service Worker] Getting Week Info', e);
+    e.respondWith(
+      caches.open(CACHE_DYNAMIC_BOOKS).then(async function (cache) {
+        const res = await fetch(e.request);
+        cache.put(e.request, res.clone());
+        return res;
+      })
+    );
   } else if (
     new RegExp('\\b' + STATIC_FILES.join('\\b|\\b') + '\\b').test(e.request.url)
   ) {
+    console.log('Respondiendo con los archivos en cache');
     e.respondWith(caches.match(e.request));
   } else {
     // response to static files requests, Cache-First strategy
+    console.log('Buscando los archivos y guardándolos en cache');
     e.respondWith(
       (async () => {
         const r = await caches.match(e.request);
@@ -119,10 +123,10 @@ const delay = (ms) => (_) =>
 
 function update(request) {
   return fetch(request.url).then(
-    (response) => console.log(response)
-    // cache(request, response) // we can put response in cache
-    //   .then(delay(3000)) // add a fake latency of 3 seconds
-    //   .then(() => response) // resolve promise with the Response object
+    (response) =>
+      cache(request, response) // we can put response in cache
+        .then(delay(3000)) // add a fake latency of 3 seconds
+        .then(() => response) // resolve promise with the Response object
   );
 }
 
