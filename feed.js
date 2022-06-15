@@ -126,31 +126,50 @@ async function getPassagesFromApi(book, chapter, arrVerses) {
   console.log(data.content);
 }
 
-var url = 'https://httpbin.org/get';
-var networkDataReceived = false;
+const URL_DATA_PLAN = 'https://httpbin.org/get';
+const URL_API_BOOKS =
+  'https://api.scripture.api.bible/v1/bibles/b32b9d1b64b4ef29-01/books';
+const getHeaders = () => {
+  let myHeaders = new Headers();
+  myHeaders.append('accept', 'application/json');
+  myHeaders.append('api-key', '9e3691df3405154e2a29a793923104bd');
+  console.log(myHeaders);
+  return myHeaders;
+};
+const URL_API_BOOKS_OPTIONS = {
+  method: 'GET',
+  headers: getHeaders(),
+  redirect: 'follow',
+};
 
-fetch(url)
-  .then(function (res) {
-    return res.json();
-  })
-  .then(function (data) {
-    networkDataReceived = true;
-    console.log('From web', data);
-    getData();
-  });
-
-if ('caches' in window) {
-  caches
-    .match(url)
-    .then(function (response) {
-      if (response) {
-        return response.json();
-      }
+const getInitialData = (url, requestOptions) => {
+  let networkDataReceived = false;
+  fetch(url, requestOptions)
+    .then(function (res) {
+      return res.json();
     })
     .then(function (data) {
-      console.log('From cache', data);
-      if (!networkDataReceived) {
-        getData();
-      }
+      networkDataReceived = true;
+      console.log('From web', data);
+      getData();
     });
-}
+
+  if ('caches' in window) {
+    caches
+      .match(url)
+      .then(function (response) {
+        if (response) {
+          return response.json();
+        }
+      })
+      .then(function (data) {
+        console.log('From cache', data);
+        if (!networkDataReceived) {
+          getData();
+        }
+      });
+  }
+};
+
+getInitialData(URL_DATA_PLAN);
+getInitialData(URL_API_BOOKS, URL_API_BOOKS_OPTIONS);
