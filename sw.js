@@ -57,13 +57,31 @@ self.addEventListener('activate', (e) => {
   );
   return self.clients.claim();
 });
+
+function isInArray(string, array) {
+  var cachePath;
+  if (string.indexOf(self.origin) === 0) {
+    // request targets domain where we serve the page from (i.e. NOT a CDN)
+    console.log('matched ', string);
+    cachePath = string.substring(self.origin.length); // take the part of the URL AFTER the domain (e.g. after localhost:8080)
+  } else {
+    cachePath = string; // store the full request (for CDNs)
+  }
+  return array.indexOf(cachePath) > -1;
+}
 // Fetching content using Service Worker
 self.addEventListener('fetch', (e) => {
   // if (!(e.request.url.indexOf('http') === 0)) return;
 
   const url = 'https://httpbin.org/get';
-  if (e.request.url.indexOf(url) > -1) {
+  const url_books = '/book';
+  if (
+    // Intercept the url fetching
+    e.request.url.indexOf(url) > -1 ||
+    e.request.url.indexOf(url_books) > -1
+  ) {
     console.log('[Service Worker] Getting Week Info', e);
+    // Dynamic caching for cache, then network strategy
     e.respondWith(
       caches.open(CACHE_DYNAMIC_BOOKS).then(function (cache) {
         return fetch(e.request).then(function (res) {
@@ -72,13 +90,11 @@ self.addEventListener('fetch', (e) => {
         });
       })
     );
-  } else if (
-    new RegExp('\\b' + STATIC_FILES.join('\\b|\\b') + '\\b').test(e.request.url)
-  ) {
+  } else if (isInArray(e.request.url, STATIC_FILES)) {
     console.log('Respondiendo con los archivos en cache');
     e.respondWith(caches.match(e.request));
   } else {
-    // response to static files requests, Cache-First strategy
+    // response to static files requests, Cache-First strategy, then network
     console.log('Buscando los archivos y guardándolos en cache');
     e.respondWith(
       caches.match(e.request).then(function (response) {
@@ -86,7 +102,7 @@ self.addEventListener('fetch', (e) => {
           return response;
         } else {
           return fetch(e.request).then(function (res) {
-            return caches.open(CACHE_DYNAMIC_NAME).then(function (cache) {
+            return caches.open(CACHE_DYNAMIC_BOOKS).then(function (cache) {
               cache.put(e.request.url, res.clone());
               return res;
             });
