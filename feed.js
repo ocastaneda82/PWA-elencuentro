@@ -1,6 +1,7 @@
 // self.importScripts('data/texts.js');
 
-const getData = () => {
+const getData = (data) => {
+  console.log('data', data);
   // Generating texts content based on the Template
   const textsTemplate = `<dt>
   DAY <strong>TITLE</strong>
@@ -25,15 +26,15 @@ const getData = () => {
   //   return arr.length === 2 ? range(arr[0], arr[1]) : arr[0];
   // };
   let content = '';
-  for (let i = 0; i < texts.length; i++) {
-    let versesOriginal = String(texts[i].verses).replace(',', '-');
+  for (let i = 0; i < data.length; i++) {
+    let versesOriginal = String(data[i].verses).replace(',', '-');
     let entry = textsTemplate
-      .replace(/DAY/g, texts[i].day)
-      .replace(/TITLE/g, texts[i].title)
-      .replace(/BOOK/g, texts[i].book)
-      .replace(/CHAP/g, texts[i].chapter)
+      .replace(/DAY/g, data[i].day)
+      .replace(/TITLE/g, data[i].title)
+      .replace(/BOOK/g, data[i].book)
+      .replace(/CHAP/g, data[i].chapter)
       .replace(/ORIVER/g, versesOriginal)
-      .replace(/VERS/g, texts[i].verses);
+      .replace(/VERS/g, data[i].verses);
     content += entry;
   }
   document.getElementById('content').innerHTML = content;
@@ -125,8 +126,9 @@ async function getPassagesFromApi(book, chapter, arrVerses) {
   toggleModal('PASSAGES_MODAL', data.content);
   console.log(data.content);
 }
-
-const URL_DATA_PLAN = 'https://httpbin.org/get';
+const URL_DATA_PLAN_ID = 'DB';
+const URL_DATA_PLAN =
+  'https://el-encuentro-pwa-default-rtdb.firebaseio.com/textos.json';
 const URL_API_BOOKS =
   'https://api.scripture.api.bible/v1/bibles/b32b9d1b64b4ef29-01/books';
 const getHeaders = () => {
@@ -142,7 +144,7 @@ const URL_API_BOOKS_OPTIONS = {
   redirect: 'follow',
 };
 
-const getInitialData = (url, requestOptions) => {
+const getInitialData = (url, requestOptions, dataId) => {
   let networkDataReceived = false;
   fetch(url, requestOptions)
     .then(function (res) {
@@ -151,7 +153,7 @@ const getInitialData = (url, requestOptions) => {
     .then(function (data) {
       networkDataReceived = true;
       console.log('From web', data);
-      getData();
+      dataId === 'DB' && getData(data);
     });
 
   if ('caches' in window) {
@@ -165,11 +167,11 @@ const getInitialData = (url, requestOptions) => {
       .then(function (data) {
         console.log('From cache', data);
         if (!networkDataReceived) {
-          getData();
+          dataId === 'DB' && getData(data);
         }
       });
   }
 };
 
-getInitialData(URL_DATA_PLAN);
+getInitialData(URL_DATA_PLAN, null, URL_DATA_PLAN_ID);
 getInitialData(URL_API_BOOKS, URL_API_BOOKS_OPTIONS);

@@ -1,12 +1,14 @@
+importScripts('/idb.js');
 // Files to cache
 const cacheName = 'eePWA-v005';
-var CACHE_DYNAMIC_BOOKS = 'dynamic-books-v005';
+const CACHE_DYNAMIC_BOOKS = 'dynamic-books-v005';
 // var CACHE_DYNAMIC_PASSAGES = 'dynamic-passages-v04';
 const STATIC_FILES = [
   '/',
   '/index.html',
   '/app.js',
   '/feed.js',
+  '/idb.js',
   '/data/texts.js',
   '/cta-modal.js',
   '/style.css',
@@ -28,7 +30,12 @@ const STATIC_FILES = [
 //   '/PWA-elencuentro/',
 //   '/PWA-elencuentro/index.html'...
 // ];
-
+const dbPromise = idb.open('texts-store', 1, (db) => {
+  !db.objectStoreNames.contains('texts') &&
+    db.createObjectStore('texts', {
+      keyPath: 'id',
+    });
+});
 function trimCache(cacheName, maxItems) {
   caches.open(cacheName).then((cache) => {
     return cache.keys().then((keys) => {
@@ -81,8 +88,7 @@ function isInArray(string, array) {
 // Fetching content using Service Worker
 self.addEventListener('fetch', (e) => {
   // if (!(e.request.url.indexOf('http') === 0)) return;
-
-  const url = 'https://httpbin.org/get';
+  const url = 'https://el-encuentro-pwa-default-rtdb.firebaseio.com/textos';
   const url_books = '/book';
   if (
     // Intercept the url fetching
@@ -92,12 +98,20 @@ self.addEventListener('fetch', (e) => {
     console.log('[Service Worker] Getting Week Info', e);
     // Dynamic caching for cache, then network strategy
     e.respondWith(
-      caches.open(CACHE_DYNAMIC_BOOKS).then(function (cache) {
-        return fetch(e.request).then(function (res) {
-          trimCache(CACHE_DYNAMIC_BOOKS, 3);
-          cache.put(e.request, res.clone());
-          return res;
+      // Save data to IDB
+      fetch(e.request).then(function (res) {
+        const cloneRes = res.clone();
+        cloneRes.json().then((data) => {
+          for (let key in data) {
+            dbPromise.then((db) => {
+              const tx = db.transaction('texts', 'readwrite');
+              const store = tx.objectStore('texts');
+              store.put(data[key]);
+              return tx.complete;
+            });
+          }
         });
+        return res;
       })
     );
   } else if (isInArray(e.request.url, STATIC_FILES)) {
