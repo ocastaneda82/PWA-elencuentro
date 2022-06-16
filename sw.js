@@ -29,6 +29,15 @@ const STATIC_FILES = [
 //   '/PWA-elencuentro/index.html'...
 // ];
 
+function trimCache(cacheName, maxItems) {
+  caches.open(cacheName).then((cache) => {
+    return cache.keys().then((keys) => {
+      if (keys.length > maxItems) {
+        cache.delete(keys[0]).then(trimCache(cacheName, maxItems));
+      }
+    });
+  });
+}
 // Installing Service Worker
 self.addEventListener('install', (e) => {
   console.log('[Service Worker] Install', e);
@@ -85,6 +94,7 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(
       caches.open(CACHE_DYNAMIC_BOOKS).then(function (cache) {
         return fetch(e.request).then(function (res) {
+          trimCache(CACHE_DYNAMIC_BOOKS, 3);
           cache.put(e.request, res.clone());
           return res;
         });
@@ -103,6 +113,7 @@ self.addEventListener('fetch', (e) => {
         } else {
           return fetch(e.request).then(function (res) {
             return caches.open(CACHE_DYNAMIC_BOOKS).then(function (cache) {
+              trimCache(CACHE_DYNAMIC_BOOKS, 3);
               cache.put(e.request.url, res.clone());
               return res;
             });
