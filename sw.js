@@ -1,7 +1,8 @@
 importScripts('/idb.js');
+importScripts('/utility.js');
 // Files to cache
-const cacheName = 'eePWA-v005';
-const CACHE_DYNAMIC_BOOKS = 'dynamic-books-v005';
+const cacheName = 'eePWA-v006';
+const CACHE_DYNAMIC_BOOKS = 'dynamic-books-v006';
 // var CACHE_DYNAMIC_PASSAGES = 'dynamic-passages-v04';
 const STATIC_FILES = [
   '/',
@@ -30,12 +31,7 @@ const STATIC_FILES = [
 //   '/PWA-elencuentro/',
 //   '/PWA-elencuentro/index.html'...
 // ];
-const dbPromise = idb.open('texts-store', 1, (db) => {
-  !db.objectStoreNames.contains('texts') &&
-    db.createObjectStore('texts', {
-      keyPath: 'id',
-    });
-});
+
 function trimCache(cacheName, maxItems) {
   caches.open(cacheName).then((cache) => {
     return cache.keys().then((keys) => {
@@ -85,6 +81,7 @@ function isInArray(string, array) {
   }
   return array.indexOf(cachePath) > -1;
 }
+
 // Fetching content using Service Worker
 self.addEventListener('fetch', (e) => {
   // if (!(e.request.url.indexOf('http') === 0)) return;
@@ -92,8 +89,8 @@ self.addEventListener('fetch', (e) => {
   const url_books = '/book';
   if (
     // Intercept the url fetching
-    e.request.url.indexOf(url) > -1 ||
-    e.request.url.indexOf(url_books) > -1
+    e.request.url.indexOf(url) > -1 //||
+    // e.request.url.indexOf(url_books) > -1
   ) {
     console.log('[Service Worker] Getting Week Info', e);
     // Dynamic caching for cache, then network strategy
@@ -101,16 +98,15 @@ self.addEventListener('fetch', (e) => {
       // Save data to IDB
       fetch(e.request).then(function (res) {
         const cloneRes = res.clone();
-        cloneRes.json().then((data) => {
-          for (let key in data) {
-            dbPromise.then((db) => {
-              const tx = db.transaction('texts', 'readwrite');
-              const store = tx.objectStore('texts');
-              store.put(data[key]);
-              return tx.complete;
-            });
-          }
-        });
+        clearDataIDB('texts')
+          .then(() => {
+            return cloneRes.json();
+          })
+          .then((data) => {
+            for (let key in data) {
+              writeDataIDB('texts', data[key]);
+            }
+          });
         return res;
       })
     );
@@ -145,31 +141,3 @@ self.addEventListener('fetch', (e) => {
 
 const delay = (ms) => (_) =>
   new Promise((resolve) => setTimeout(() => resolve(_), ms));
-
-function update(request) {
-  return fetch(request.url).then(
-    (response) =>
-      cache(request, response) // we can put response in cache
-        .then(delay(3000)) // add a fake latency of 3 seconds
-        .then(() => response) // resolve promise with the Response object
-  );
-}
-
-function refresh(response) {
-  return response
-    .json() // read and parse JSON response
-    .then((jsonResponse) => {
-      self.clients.matchAll().then((clients) => {
-        clients.forEach((client) => {
-          // report and send new data to client
-          client.postMessage(
-            JSON.stringify({
-              type: response.url,
-              data: jsonResponse.data,
-            })
-          );
-        });
-      });
-      return jsonResponse.data; // resolve promise with new data
-    });
-}

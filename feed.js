@@ -156,20 +156,13 @@ const getInitialData = (url, requestOptions, dataId) => {
       dataId === 'DB' && getData(data);
     });
 
-  if ('caches' in window) {
-    caches
-      .match(url)
-      .then(function (response) {
-        if (response) {
-          return response.json();
-        }
-      })
-      .then(function (data) {
+  if ('indexedDB' in window) {
+    readDataIDB('texts').then((data) => {
+      if (!networkDataReceived) {
         console.log('From cache', data);
-        if (!networkDataReceived) {
-          dataId === 'DB' && getData(data);
-        }
-      });
+        getData(data);
+      }
+    });
   }
 };
 
