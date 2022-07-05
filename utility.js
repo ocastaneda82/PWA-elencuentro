@@ -30,3 +30,16 @@ const clearDataIDB = (dbName) => {
     return tx.complete;
   });
 };
+
+const deleteItemDataIDB = (dbName, id) => {
+  dbPromise
+    .then((db) => {
+      const tx = db.transaction(dbName, 'readwrite');
+      const store = tx.objectStore(dbName);
+      store.delete(id);
+      return tx.complete;
+    })
+    .then(() => {
+      console.log(`Item ${id} deleted`);
+    });
+};
