@@ -23,7 +23,7 @@ const readDataIDB = (dbName) => {
 };
 
 const clearDataIDB = (dbName) => {
-  return dbPromise.then(() => {
+  return dbPromise.then((db) => {
     const tx = db.transaction(dbName, 'readwrite');
     const store = tx.objectStore(dbName);
     store.clear();
